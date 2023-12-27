@@ -6,3 +6,6 @@ artifacts/raw.csv
 artifacts/test.csv
 artifacts/train.csv
 artifacts/transformed_data.csv
+
+artifacts/model.pkl
+artifacts/preprocessor.pkl

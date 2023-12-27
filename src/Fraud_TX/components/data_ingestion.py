@@ -3,17 +3,9 @@ import numpy as np
 import os
 import sys
 
-# Get the absolute path of the current script
-script_path = os.path.abspath(__file__)
 
-# Move two levels up to the project root
-project_root = os.path.abspath(os.path.join(script_path, "..", ".."))
-sys.path.append(project_root)
-
-from Fraud_TX.logger import logging
-from Fraud_TX.exception import customexception
-
-
+from src.Fraud_TX.logger import logging
+from src.Fraud_TX.exception import customexception
 
 
 from sklearn.model_selection import train_test_split
@@ -36,12 +28,12 @@ class DataIngestion:
         
         try:
             data=pd.read_csv(Path(os.path.join("notebooks/data","creditcard.csv")))
-            logging.info(" I have read dataset as dataframe")
+            logging.info("I have read dataset as dataframe")
             
             
             os.makedirs(os.path.dirname(os.path.join(self.ingestion_config.raw_data_path)),exist_ok=True)
             data.to_csv(self.ingestion_config.raw_data_path,index=False)
-            logging.info(" I have saved the raw dataset in artifact folder")
+            logging.info(" i have saved the raw dataset in artifact folder")
             
         
             
@@ -54,12 +46,18 @@ class DataIngestion:
             logging.info("data ingestion part completed")
             
             return (
+                 
+                
                 self.ingestion_config.train_data_path,
                 self.ingestion_config.test_data_path
             )
             
             
         except Exception as e:
-           logging.info("exception occured at data ingestion stage")
+           logging.info("exception during occured at data ingestion stage")
            raise customexception(e,sys)
     
+            
+
+
+print("Data Ingestion File Run sucessfully")

@@ -6,6 +6,4 @@ seaborn
 
 scikit-learn
 
-# ipykernal
-
-# sys
+-e .

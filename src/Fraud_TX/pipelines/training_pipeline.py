@@ -1,13 +1,15 @@
-from src.Fraud_TX.components.data_ingestion import DataIngestion
-from src.Fraud_TX.components.data_transformation import perform_data_transformation
-from src.Fraud_TX.components.model_trainer import ModelTrainer
-from src.Fraud_TX.components.model_evaluation import ModelEvaluation
-
 import os
 import sys
 
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 sys.path.append(project_root)
+
+from src.Fraud_TX.components.data_ingestion import DataIngestion
+from src.Fraud_TX.components.data_transformation import DataTransformation
+from src.Fraud_TX.components.model_trainer import ModelTrainer
+from src.Fraud_TX.components.model_trainer import ModelTrainer
+
+
 
 from src.Fraud_TX.logger import logging
 from src.Fraud_TX.exception import customexception

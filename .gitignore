@@ -1,3 +1,7 @@
 env
 notebooks/data/cleaned_creditcard.csv
 notebooks/data/creditcard.csv
+
+artifacts/raw.csv
+artifacts/test.csv
+artifacts/train.csv

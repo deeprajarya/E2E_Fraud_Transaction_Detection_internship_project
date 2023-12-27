@@ -60,4 +60,4 @@ class DataIngestion:
             
 
 
-print("Data Ingestion File Run sucessfully")
+print(" 'data_ingestion.py' file run sucessfully")

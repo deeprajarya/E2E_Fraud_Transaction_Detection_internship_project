@@ -1,12 +1,16 @@
 import os
 import sys
-from pathlib import Path
-
-
-from Fraud_TX.logger import logging
-
-
 import pandas as pd
+import numpy as np
+
+
+from src.Fraud_TX.logger import logging
+from src.Fraud_TX.exception import customexception
+from dataclasses import dataclass
+from src.Fraud_TX.utils.utils import save_object
+from src.Fraud_TX.utils.utils import evaluate_model
+
+
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.neighbors import KNeighborsClassifier
@@ -18,44 +22,82 @@ from sklearn.metrics import accuracy_score
 from sklearn.model_selection import RandomizedSearchCV
 
 
-project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
-sys.path.append(project_root)
+@dataclass 
+class ModelTrainerConfig:
+    trained_model_file_path = os.path.join('artifacts','model.pkl')
+    transformed_data_path = os.path.join('artifacts', 'transformed_data.csv')
 
 
 
 
 class ModelTrainer:
-    def __init__(self, transformed_data_path):
-        self.transformed_data_path = transformed_data_path
+    def __init__(self):
+        self.model_trainer_config = ModelTrainerConfig()
 
-    def train_models(self):
-        # Read the transformed data
-        transformed_data = pd.read_csv(self.transformed_data_path)
+    def initiate_model_training(self):
 
-        # Split the data into features (X) and target (y)
-        X = transformed_data.drop('Class', axis=1)
-        y = transformed_data['Class']
+        try:
+            logging.info('Model training initiated')
 
-        # Split the data into training and testing sets
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+            # Read the transformed data
+            transformed_data = pd.read_csv(self.model_trainer_config.transformed_data_path)
 
-        # Train multiple classifiers
-        classifiers = {
-            "RandomForestClassifier": self.train_random_forest(X_train, y_train),
-            "KNeighborsClassifier": self.train_kneighbors(X_train, y_train),
-            "SVC": self.train_svc(X_train, y_train),
-            "DecisionTreeClassifier": self.train_decision_tree(X_train, y_train),
-            "LogisticRegression": self.train_logistic_regression(X_train, y_train)
-            # Add more classifiers as needed
-        }
+            logging.info('Splitting Dependent and Independent variables from train and test data')
+            X = transformed_data.drop('Class', axis=1)
+            y = transformed_data['Class']
 
-        # Evaluate and log the performance of each classifier
-        for clf_name, clf in classifiers.items():
-            y_pred = clf.predict(X_test)
-            accuracy = accuracy_score(y_test, y_pred)
-            logging.info(f"{clf_name} Accuracy: {accuracy * 100:.2f}%")
+            logging.info("Split the data into training and testing sets")
+            X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-        return classifiers
+            logging.info("Train multiple classifiers in model_training stage")
+
+            trained_classifiers = {
+                
+                "RandomForestClassifier": self.train_random_forest(X_train, y_train),
+                "KNeighborsClassifier": self.train_kneighbors(X_train, y_train),
+                "SVC": self.train_svc(X_train, y_train),
+                "DecisionTreeClassifier": self.train_decision_tree(X_train, y_train),
+                "LogisticRegression": self.train_logistic_regression(X_train, y_train)
+                # Add more classifiers as needed
+                }
+            
+
+            model_report:dict=evaluate_model(X_train,y_train,X_test,y_test,classifiers)
+            print(model_report)
+            print('\n====================================================================================\n')
+            logging.info(f'Model Report : {model_report}')
+
+
+
+            # To get best model score from dictionary 
+            best_model_score = max(sorted(model_report.values()))
+
+            best_model_name = list(model_report.keys())[
+                list(model_report.values()).index(best_model_score)
+            ]
+            
+            best_model = trained_classifiers[best_model_name]
+
+
+            print(f'Best Model Found , Model Name : {best_model_name} , Accuracy Score : {best_model_score}')
+            print('\n====================================================================================\n')
+            logging.info(f'Best Model Found , Model Name : {best_model_name} , Accuracy Score : {best_model_score}')
+
+            save_object(
+                 file_path=self.model_trainer_config.trained_model_file_path,
+                 obj=best_model
+            )
+          
+
+        except Exception as e:
+            logging.info('Exception occured at Model Training stage')
+            raise customexception(e,sys)
+
+
+
+            
+
+
 
     def train_random_forest(self, X_train, y_train):
         # Set hyperparameters for Random Forest using RandomizedSearchCV
@@ -70,7 +112,7 @@ class ModelTrainer:
         random_forest = RandomForestClassifier()
 
         # Run RandomizedSearchCV
-        random_search = RandomizedSearchCV(random_forest, param_distributions=param_dist, n_iter=10, cv=5, scoring='accuracy', random_state=42)
+        random_search = RandomizedSearchCV(random_forest, param_distributions=param_dist, n_iter=5, cv=5, scoring='accuracy', random_state=42,n_jobs=-1)
         random_search.fit(X_train, y_train)
 
         # Get the best estimator
@@ -124,12 +166,16 @@ class ModelTrainer:
         log_reg.fit(X_train, y_train)
 
         return log_reg
+    
+    def best_model():
 
-# Example Usage
-if __name__ == "__main__":
-    transformed_data_path = "artifacts/transformed_data.csv"  
-    model_trainer_instance = ModelTrainer(transformed_data_path)
-    trained_models = model_trainer_instance.train_models()
-    # we can save the trained models 
-    for clf_name, clf in trained_models.items():
-        joblib.dump(clf, f"path/to/save/{clf_name}.pkl")
+        model_trainer_instance = ModelTrainer(transformed_data_path)
+        trained_models = model_trainer_instance.best_model()
+        # we can save the trained models 
+        for clf_name, clf in trained_models.items():
+            joblib.dump(clf, f"path/to/save/{clf_name}.pkl")
+
+
+
+
+print(" 'mode'_trainer.py' file run successfully")

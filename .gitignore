@@ -5,3 +5,4 @@ notebooks/data/creditcard.csv
 artifacts/raw.csv
 artifacts/test.csv
 artifacts/train.csv
+artifacts/transformed_data.csv

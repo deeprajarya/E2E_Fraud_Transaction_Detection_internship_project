@@ -1,17 +1,20 @@
 import pandas as pd
-from src.Fraud_TX.components.data_transformation import get_data_transformation
-from sklearn.externals import joblib
+from src.Fraud_TX.components.data_transformation import DataTransformation
+import joblib
 
-# Load saved best parameters
-with open("best_model.json", "r") as json_file:
-    best_model = json.load(json_file)
+
+# Specify the path to your 'model.pkl' file
+model_path = "artifacts/model.pkl"
+
+# Load the model
+best_model = joblib.load(model_path)
+
 
 # Load and preprocess new data for prediction
-new_data = pd.read_csv("test.csv")  # Provide path to the new data file
-transformed_new_data = get_data_transformation(new_data)
+new_data = pd.read_csv("artifacts/test.csv")  # Provide path to the new data file
+transformed_new_data = initialize_data_transformation(new_data)
 
-# Load the best model (choose the best model based on your evaluation)
-best_model = best_model(**best_parameters['forest_clf'])  
+
 
 # Train the best model on the entire dataset
 best_model.fit(X_train, y_train)

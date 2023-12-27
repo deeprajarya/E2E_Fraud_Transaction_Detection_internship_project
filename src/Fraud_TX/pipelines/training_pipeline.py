@@ -37,7 +37,7 @@ model_trainer.initiate_model_training()   # train_arr,test_arr
 
 
 # Train models and get best parameters
-best_model = model_trainer.train_models()
+best_model = model_trainer.trained_classifiers()
 
 # Save the best model to a file for future reference
 with open("best_model.json", "w") as json_file:

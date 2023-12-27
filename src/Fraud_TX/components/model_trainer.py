@@ -53,7 +53,7 @@ class ModelTrainer:
 
             trained_classifiers = {
                 
-                "RandomForestClassifier": self.train_random_forest(X_train, y_train),
+                #"RandomForestClassifier": self.train_random_forest(X_train, y_train),
                 "KNeighborsClassifier": self.train_kneighbors(X_train, y_train),
                 "SVC": self.train_svc(X_train, y_train),
                 "DecisionTreeClassifier": self.train_decision_tree(X_train, y_train),
@@ -62,7 +62,7 @@ class ModelTrainer:
                 }
             
 
-            model_report:dict=evaluate_model(X_train,y_train,X_test,y_test,classifiers)
+            model_report:dict=evaluate_model(X_train,y_train,X_test,y_test,trained_classifiers)
             print(model_report)
             print('\n====================================================================================\n')
             logging.info(f'Model Report : {model_report}')
@@ -169,7 +169,7 @@ class ModelTrainer:
     
     def best_model():
 
-        model_trainer_instance = ModelTrainer(transformed_data_path)
+        model_trainer_instance = ModelTrainer()
         trained_models = model_trainer_instance.best_model()
         # we can save the trained models 
         for clf_name, clf in trained_models.items():

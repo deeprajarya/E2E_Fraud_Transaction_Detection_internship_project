@@ -1,0 +1,7 @@
+[2023-12-27 22:44:53,210] 27 root - INFO - data ingestion started
+[2023-12-27 22:44:54,688] 31 root - INFO - I have read dataset as dataframe
+[2023-12-27 22:45:03,749] 36 root - INFO -  i have saved the raw dataset in artifact folder
+[2023-12-27 22:45:03,844] 41 root - INFO - train test split completed
+[2023-12-27 22:45:12,128] 46 root - INFO - data ingestion part completed
+[2023-12-27 22:45:13,507] 61 root - INFO - read train and test data 
+[2023-12-27 22:45:13,507] 103 root - INFO - Exception occured in the initiate_datatransformation stage

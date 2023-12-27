@@ -1,12 +1,21 @@
 import pandas as pd
 import numpy as np
-
-
-from src.Fraud_TX.logger import logging
-from src.Fraud_TX.exception import customexception
-
 import os
 import sys
+
+# Get the absolute path of the current script
+script_path = os.path.abspath(__file__)
+
+# Move two levels up to the project root
+project_root = os.path.abspath(os.path.join(script_path, "..", ".."))
+sys.path.append(project_root)
+
+from Fraud_TX.logger import logging
+from Fraud_TX.exception import customexception
+
+
+
+
 from sklearn.model_selection import train_test_split
 from dataclasses import dataclass
 from pathlib import Path

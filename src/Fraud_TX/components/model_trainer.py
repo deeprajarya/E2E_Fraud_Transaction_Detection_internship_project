@@ -3,7 +3,6 @@ import sys
 from pathlib import Path
 
 
-
 from Fraud_TX.logger import logging
 
 
@@ -21,7 +20,6 @@ from sklearn.model_selection import RandomizedSearchCV
 
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 sys.path.append(project_root)
-
 
 
 
@@ -129,9 +127,9 @@ class ModelTrainer:
 
 # Example Usage
 if __name__ == "__main__":
-    transformed_data_path = "path/to/your/transformed_data.csv"  # Replace with the actual path
+    transformed_data_path = "artifacts/transformed_data.csv"  
     model_trainer_instance = ModelTrainer(transformed_data_path)
     trained_models = model_trainer_instance.train_models()
-    # You can save the trained models if needed
-    # for clf_name, clf in trained_models.items():
-    #     joblib.dump(clf, f"path/to/save/{clf_name}.pkl")
+    # we can save the trained models 
+    for clf_name, clf in trained_models.items():
+        joblib.dump(clf, f"path/to/save/{clf_name}.pkl")

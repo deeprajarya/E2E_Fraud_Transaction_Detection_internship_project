@@ -1,3 +1,0 @@
-[2023-12-30 01:28:54,761] 70 root - INFO -  Initialize data transformation stage initiated 
-[2023-12-30 01:28:54,761] 71 root - INFO - read raw data 
-[2023-12-30 01:28:54,761] 101 root - INFO - Exception occured in the initiate_data_transformation stage

@@ -111,14 +111,9 @@ class ModelTrainer:
             logging.info(f'Best Model Found , Model Name : {best_model_name} , Accuracy Score : {best_model_score}')
 
 
-            '''# Save the best model using joblib
-            best_model_name = "best_model.joblib"
-            joblib.dump(best_model, best_model_name +".joblib")
-            '''
-
 
             # Save the best model using joblib
-            model_file = os.path.join('path/to/save/', best_model_name + ".joblib")
+            model_file = os.path.join('artifacts', best_model_name + ".joblib")
             joblib.dump(best_model, model_file)
 
 
@@ -197,8 +192,13 @@ class ModelTrainer:
         model_trainer_instance = ModelTrainer()
         trained_models = model_trainer_instance.best_model()
         # we can save the trained models 
+        '''
         for clf_name, clf in trained_models.items():
-            joblib.dump(clf, f"path/to/save/{clf_name}.pkl")
+            joblib.dump(clf, f"artifacts/clf_name.pkl")
+        '''
+            
+
+
 
 
 

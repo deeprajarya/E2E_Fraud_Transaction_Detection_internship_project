@@ -35,16 +35,13 @@ classifiers = model_trainer_instance.classifiers
 # Train models and get best parameters
 best_model = model_trainer_instance.classifiers
 
-'''
-# Save the best model to a file for future reference
-with open("best_model.json", "w") as json_file:
-    json.dump(best_model, json_file)
-'''
 
 # Save the best model to a file for future reference
 best_model_name = "best_model.joblib"
 with open(best_model_name, "wb") as model_file:
-    joblib.dump(classifiers[best_model_name], model_file)
+    joblib.dump(best_model, f"artifacts/best_model.joblib")
+
+
 
 
 

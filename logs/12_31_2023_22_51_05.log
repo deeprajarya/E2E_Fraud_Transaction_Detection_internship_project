@@ -1,0 +1,32 @@
+[2023-12-31 22:51:06,626] 27 root - INFO - data ingestion started
+[2023-12-31 22:51:08,360] 31 root - INFO - I have read dataset as dataframe
+[2023-12-31 22:51:18,418] 36 root - INFO -  i have saved the raw dataset in artifact folder
+[2023-12-31 22:51:18,497] 41 root - INFO - Train-Test split completed
+[2023-12-31 22:51:27,789] 46 root - INFO - Raw data has been splitted into train and test data
+[2023-12-31 22:51:27,789] 47 root - INFO - Now data ingestion part is completed
+[2023-12-31 22:51:27,802] 70 root - INFO -  initiate_data_transformation stage initiated 
+[2023-12-31 22:51:29,394] 75 root - INFO - Train Dataframe Head : 
+      Time        V1        V2        V3        V4        V5        V6        V7        V8        V9       V10       V11       V12       V13       V14       V15       V16       V17       V18       V19       V20       V21       V22       V23       V24       V25       V26       V27       V28  Amount  Class
+0  90393.0 -0.513205  0.355200  0.232362 -0.305095  1.513563 -0.867814  0.382087  0.026727  0.892194 -1.289064  1.908190 -2.435763  0.550579  0.876125 -1.511868  0.504158  0.990690  0.658307 -0.126788 -0.011265 -0.378846 -1.123573  0.099081  0.574901 -0.081988  0.112963 -0.126455 -0.009070    8.99      0
+1  74604.0  1.351637 -0.557159  0.431256 -0.904755 -0.748423 -0.063247 -0.773294  0.138978 -0.942608  0.745222  1.367336 -0.081756 -0.269046  0.119375  0.402646  1.241728  0.159105 -1.384189  0.676786  0.022746 -0.046878 -0.261039  0.120039 -0.332748  0.161362 -0.445719  0.021110  0.004146    4.21      0
+[2023-12-31 22:51:29,394] 76 root - INFO - Test Dataframe Head : 
+       Time        V1       V2        V3        V4        V5        V6        V7        V8        V9       V10       V11       V12       V13       V14       V15       V16       V17       V18       V19       V20       V21       V22       V23       V24       V25       V26       V27       V28  Amount  Class
+0  139075.0 -0.952784 -0.41573 -0.191547 -0.514900  1.640325 -0.676125  0.168984 -0.098089 -0.122188  0.042201  0.395606  0.255161 -0.273439  0.382183 -0.223282  0.616619 -1.127919  0.531065 -0.043698 -0.598852  0.089895  0.463750 -0.516807  0.358928 -0.093052  0.302664 -0.052385 -0.135782   76.15      0
+1  132038.0  0.295325  0.80735  0.586862  0.557476  0.319293  0.874887 -0.562003 -1.509069  0.256140 -0.267140 -1.381106  0.787551  1.510626 -0.267168  0.403521  0.506920 -0.842113  0.025312 -0.101263 -0.320144  1.262880 -1.206824 -0.069371 -0.012404  0.904568 -0.738726  0.183631  0.137419   12.99      0
+[2023-12-31 22:51:29,394] 81 root - INFO - Column names in the dataframe: Index(['Time', 'V1', 'V2', 'V3', 'V4', 'V5', 'V6', 'V7', 'V8', 'V9', 'V10',
+       'V11', 'V12', 'V13', 'V14', 'V15', 'V16', 'V17', 'V18', 'V19', 'V20',
+       'V21', 'V22', 'V23', 'V24', 'V25', 'V26', 'V27', 'V28', 'Amount',
+       'Class'],
+      dtype='object')
+[2023-12-31 22:51:29,403] 82 root - INFO - Columns specified in numerical_cols: ['V1', 'V2', 'V3', 'V4', 'V5', 'V6', 'V7', 'V8', 'V9', 'V10', 'V11', 'V12', 'V13', 'V14', 'V15', 'V16', 'V17', 'V18', 'V19', 'V20', 'V21', 'V22', 'V23', 'V24', 'V25', 'V26', 'V27', 'V28']
+[2023-12-31 22:51:29,403] 40 root - INFO - get_data_transformation stage started
+[2023-12-31 22:51:29,403] 43 root - INFO - Pipeline initiated
+[2023-12-31 22:51:29,424] 98 root - INFO - Applying preprocessing object on training and testing datasets.
+[2023-12-31 22:51:29,911] 104 root - INFO - Taking array of dataframe for better learning (fast processing)
+[2023-12-31 22:51:29,925] 114 root - INFO - preprocessing pickle file saved
+[2023-12-31 22:51:29,939] 51 root - INFO - Model Training stage started
+[2023-12-31 22:51:29,939] 52 root - INFO - Splitting Dependent and Independent variables from train and test data
+[2023-12-31 22:51:29,942] 73 root - INFO - Training of multiple classifiers in model_training stage started
+[2023-12-31 22:51:29,942] 76 root - INFO - To prevent over fitting, let's find best parameter and train again
+[2023-12-31 22:51:29,942] 125 root - INFO - Model Report : ({}, None, None)
+[2023-12-31 22:51:29,942] 165 root - ERROR - Exception occured at Model Training stage

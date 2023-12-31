@@ -1,0 +1,30 @@
+[2023-12-31 23:05:43,214] 27 root - INFO - data ingestion started
+[2023-12-31 23:05:44,726] 31 root - INFO - I have read dataset as dataframe
+[2023-12-31 23:05:54,167] 36 root - INFO -  i have saved the raw dataset in artifact folder
+[2023-12-31 23:05:54,230] 41 root - INFO - Train-Test split completed
+[2023-12-31 23:06:03,593] 46 root - INFO - Raw data has been splitted into train and test data
+[2023-12-31 23:06:03,593] 47 root - INFO - Now data ingestion part is completed
+[2023-12-31 23:06:03,603] 70 root - INFO -  initiate_data_transformation stage initiated 
+[2023-12-31 23:06:04,847] 75 root - INFO - Train Dataframe Head : 
+      Time        V1        V2        V3        V4        V5        V6        V7        V8        V9       V10       V11       V12       V13       V14       V15       V16       V17       V18       V19       V20       V21       V22       V23       V24       V25       V26       V27       V28  Amount  Class
+0  89908.0 -1.174661  0.192476  1.808304 -0.891221  0.780987  1.140863  0.808240  0.149878  0.523737 -1.150154 -0.483257  0.275714 -0.204208 -0.483189  0.229997 -1.279325  0.404631 -1.387503 -1.506476 -0.178023  0.239186  1.159773 -0.372875 -0.914994  0.742490  0.018424 -0.169502 -0.187204   68.25      0
+1  67990.0 -1.829799  0.262605 -0.179970 -1.544665  3.191498  3.176789  0.858588  0.737115 -0.274783 -0.656192 -0.670041 -0.204899 -0.434850 -0.001620 -0.854810  0.428468 -1.266617 -0.010757 -1.147970 -0.241931 -0.121314 -0.186403  0.000738  0.983698  1.236631 -0.565701 -0.725932 -0.350107   51.50      0
+[2023-12-31 23:06:04,862] 76 root - INFO - Test Dataframe Head : 
+       Time        V1        V2        V3        V4        V5        V6        V7        V8        V9       V10       V11       V12       V13       V14       V15       V16       V17       V18       V19       V20       V21       V22       V23       V24       V25       V26       V27       V28  Amount  Class
+0  167538.0 -0.385555  1.323349 -0.714543 -0.189545  0.600127 -1.336233  1.146747 -0.500616  0.177832 -0.398864 -0.324872  0.081491  0.657643 -1.230707  0.666008 -0.006246  0.445376  0.612257 -0.202254 -0.071447  0.302183  1.053341 -0.206224 -0.004134 -0.348669 -0.192381 -0.115967  0.203577    38.0      0
+1   71173.0  1.322863 -0.682722  0.622360  0.241766 -1.375680 -0.591967 -0.727691  0.027366 -0.052559  0.658872 -1.421828 -1.090427 -2.158114  0.117945 -0.268110 -1.727542  0.471033  1.071049 -0.557340 -0.672909 -0.495916 -0.841391  0.036995  0.328061  0.357559  0.420804 -0.004163  0.012517    11.5      0
+[2023-12-31 23:06:04,862] 81 root - INFO - Column names in the dataframe: Index(['Time', 'V1', 'V2', 'V3', 'V4', 'V5', 'V6', 'V7', 'V8', 'V9', 'V10',
+       'V11', 'V12', 'V13', 'V14', 'V15', 'V16', 'V17', 'V18', 'V19', 'V20',
+       'V21', 'V22', 'V23', 'V24', 'V25', 'V26', 'V27', 'V28', 'Amount',
+       'Class'],
+      dtype='object')
+[2023-12-31 23:06:04,862] 82 root - INFO - Columns specified in numerical_cols: ['V1', 'V2', 'V3', 'V4', 'V5', 'V6', 'V7', 'V8', 'V9', 'V10', 'V11', 'V12', 'V13', 'V14', 'V15', 'V16', 'V17', 'V18', 'V19', 'V20', 'V21', 'V22', 'V23', 'V24', 'V25', 'V26', 'V27', 'V28']
+[2023-12-31 23:06:04,862] 40 root - INFO - get_data_transformation stage started
+[2023-12-31 23:06:04,862] 43 root - INFO - Pipeline initiated
+[2023-12-31 23:06:04,878] 98 root - INFO - Applying preprocessing object on training and testing datasets.
+[2023-12-31 23:06:05,369] 104 root - INFO - Taking array of dataframe for better learning (fast processing)
+[2023-12-31 23:06:05,401] 114 root - INFO - preprocessing pickle file saved
+[2023-12-31 23:06:05,417] 51 root - INFO - Model Training stage started
+[2023-12-31 23:06:05,417] 52 root - INFO - Splitting Dependent and Independent variables from train and test data
+[2023-12-31 23:06:05,420] 73 root - INFO - Training of multiple classifiers in model_training stage started
+[2023-12-31 23:06:05,420] 76 root - INFO - To prevent over fitting, let's find best parameter and train again

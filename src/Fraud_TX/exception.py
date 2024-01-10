@@ -6,6 +6,7 @@ class customexception(Exception):
         super().__init__(str(original_exception))
         self.original_exception = original_exception
         self.error_details = error_details
+        self.traceback = traceback
 
 
     def __str__(self):

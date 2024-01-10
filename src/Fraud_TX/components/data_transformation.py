@@ -1,4 +1,6 @@
 
+
+
 import os
 import sys
 import numpy as np
@@ -44,16 +46,16 @@ class DataTransformation:
 
             num_pipeline=Pipeline(
                 steps=[
-                ('rob_scaler',RobustScaler()),
-                ('std_scaler',StandardScaler())
+                    ('rob_scaler',RobustScaler()),
+                    ('std_scaler',StandardScaler())
 
                 ]
 
             )
 
-            preprocessor=ColumnTransformer([
-            ('num_pipeline',num_pipeline,self.train_df_num_cols)
-            ])
+            preprocessor=ColumnTransformer(
+                [('num_pipeline',num_pipeline,self.train_df_num_cols)]
+            )
             
             return preprocessor
             
@@ -104,6 +106,8 @@ class DataTransformation:
             logging.info("Taking array of dataframe for better learning (fast processing)")
             train_arr = np.c_[input_feature_train_arr, np.array(target_feature_train_df)]
             test_arr = np.c_[input_feature_test_arr, np.array(target_feature_test_df)]
+
+
 
 
             save_object(

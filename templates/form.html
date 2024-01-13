@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fraud Detection Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        form {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Arrange input fields in groups of 5 per row */
+        .row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Enter Feature Values for Fraud Detection</h2>
+    <form method="POST" action="/predict">
+        <!-- Group 1: V1 to V5 -->
+        <div class row>
+            <label for="Time">Time:</label>
+            <input type="text" id="Time" name="Time" required>
+        </div>
+
+        <div class="row">
+            <label for="V1">V1:</label>
+            <input type="text" id="V1" name="V1" required>
+
+            <label for="V2">V2:</label>
+            <input type="text" id="V2" name="V2" required>
+
+            <label for="V3">V3:</label>
+            <input type="text" id="V3" name="V3" required>
+
+            <label for="V4">V4:</label>
+            <input type="text" id="V4" name="V4" required>
+
+            <label for="V5">V5:</label>
+            <input type="text" id="V5" name="V5" required>
+        </div>
+
+        <!-- Group 2: V6 to V10 -->
+        <div class="row">
+            <label for="V6">V6:</label>
+            <input type="text" id="V6" name="V6" required>
+
+            <label for="V7">V7:</label>
+            <input type="text" id="V7" name="V7" required>
+
+            <label for="V8">V8:</label>
+            <input type="text" id="V8" name="V8" required>
+
+            <label for="V9">V9:</label>
+            <input type="text" id="V9" name="V9" required>
+
+            <label for="V10">V10:</label>
+            <input type="text" id="V10" name="V10" required>
+        </div>
+
+        <!-- Group 3: V11 to V15 -->
+        <div class="row">
+            <label for="V11">V11:</label>
+            <input type="text" id="V11" name="V11" required>
+
+            <label for="V12">V12:</label>
+            <input type="text" id="V12" name="V12" required>
+
+            <label for="V13">V13:</label>
+            <input type="text" id="V13" name="V13" required>
+
+            <label for="V14">V14:</label>
+            <input type="text" id="V14" name="V14" required>
+
+            <label for="V15">V15:</label>
+            <input type="text" id="V15" name="V15" required>
+
+            </div>
+
+        <!-- Group 4: V16 to V20 -->
+        <div class="row">
+            <label for="V16">V16:</label>
+            <input type="text" id="V16" name="V16" required>
+
+            <label for="V17">V17:</label>
+            <input type="text" id="V17" name="V17" required>
+
+            <label for="V18">V18:</label>
+            <input type="text" id="V18" name="V18" required>
+
+            <label for="V19">V19:</label>
+            <input type="text" id="V19" name="V19" required>
+
+            <label for="V20">V20:</label>
+            <input type="text" id="V20" name="V20" required>
+
+        </div>
+
+        <!-- Group 5: V21 to V25 -->
+        <div class="row">
+            <label for="V21">V21:</label>
+            <input type="text" id="V21" name="V21" required>
+
+            <label for="V22">V22:</label>
+            <input type="text" id="V22" name="V22" required>
+
+            <label for="V23">V23:</label>
+            <input type="text" id="V23" name="V23" required>
+
+            <label for="V24">V24:</label>
+            <input type="text" id="V24" name="V24" required>
+
+            <label for="V25">V25:</label>
+            <input type="text" id="V25" name="V25" required>
+
+        </div>
+
+        <!-- Group 6: V25 to V28 -->
+        <div class="row">
+            <label for="V26">V26:</label>
+            <input type="text" id="V26" name="V26" required>
+
+            <label for="V27">V27:</label>
+            <input type="text" id="V27" name="V27" required>
+
+            <label for="V28">V28:</label>
+            <input type="text" id="V28" name="V28" required>
+
+        </div>
+
+        <button type="submit">Predict</button>
+    </form>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

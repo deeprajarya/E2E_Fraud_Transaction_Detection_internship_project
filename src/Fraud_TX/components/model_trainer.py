@@ -1,20 +1,31 @@
 import sys
 import os
 import joblib
-from sklearn.metrics import accuracy_score
-from sklearn.model_selection import RandomizedSearchCV
+from dataclasses import dataclass
+
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.linear_model import LogisticRegression
+from sklearn.svm import SVC
+
 from src.Fraud_TX.logger import logging
 from src.Fraud_TX.exception import customexception
 from sklearn.model_selection import cross_val_score
+from src.Fraud_TX.utils.utils import save_object, evaluate_model
+
+
+
+@dataclass
+class ModelTrainerConfig:
+    trained_model_file_path = os.path.join("artifacts","model.pkl")
+
 
 class ModelTrainer:
     def __init__(self):
-        pass
-
+        self.model_trainer_config = ModelTrainerConfig()
+        
     def initiate_model_training(self, train_array, test_array):
+        best_model = None
         try:
             logging.info('Model Training stage started')
 
@@ -31,66 +42,44 @@ class ModelTrainer:
             classifiers = {
                 "LogisticRegression": LogisticRegression(solver='liblinear'),
                 "DecisionTreeClassifier": DecisionTreeClassifier(),
+                #"svm" : SVC(),
+                #"RandomForestClassifier": RandomForestClassifier()
             }
 
             param_dist = {
                 'LogisticRegression': {'penalty': ['l1', 'l2'], 'C': [0.001, 0.01, 0.1, 1, 10, 100, 1000]},
                 'DecisionTreeClassifier': {"criterion": ["gini", "entropy"], "max_depth": list(range(2, 4, 1)),
                                             "min_samples_leaf": list(range(5, 7, 1))},
+                #'svm': {'C': [0.5, 0.7, 0.9, 1], 'kernel': ['rbf', 'poly', 'sigmoid', 'linear']},
+                
             }
 
-            best_model_name = None
-            best_model = None
-            best_test_accuracy = 0  # Initialize to a lower value
+            model_report:dict = evaluate_model(x_train,x_test,y_train,y_test,classifiers,param_dist)
+            
+            # print model report
+            print(model_report)
 
-            logging.info("Hyper-parameter tuning stage is started \n")
+            # to get the best model score from the dictonary
+            best_model_score = max(sorted(model_report.values()))
 
-            for clf_name, clf in classifiers.items():
+            best_model_name = list(model_report.keys())[
+                list(model_report.values()).index(best_model_score)
+            ]
 
-                # Use RandomizedSearchCV for hyperparameter tuning
-                param_dist_for_clf = param_dist.get(clf_name, {})  # Get parameters for the classifier, or an empty dictionary if not found
+            best_model = classifiers[best_model_name]
+            print('\n====================================================================================')
+            print(f'Best Model Found , Model Name : {best_model_name} , Accuracy Score : {best_model_score}')
+            print('======================================================================================')
+            logging.info(f'Best Model Found \n - Model Name : {best_model_name} ,\n - Accuracy Score : {best_model_score}')
 
-                if param_dist_for_clf:
 
-                    grid_search = RandomizedSearchCV(clf, param_dist_for_clf, n_iter=10, cv=5, scoring='accuracy', n_jobs=-1)
-                    logging.info(f"\n -- Defining hyperparameter search space for {clf_name} is completed")
+    
 
-                    grid_search.fit(x_train, y_train)
+            save_object(
+                file_path=self.model_trainer_config.trained_model_file_path,
+                obj=best_model
+            )
 
-                    best_estimator = grid_search.best_estimator_
-
-                    CV_score = cross_val_score(best_estimator, x_train, y_train, cv=5)
-                    logging.info(f"Cross Validation for {clf_name} is completed")
-                    print(f"{clf_name} Cross Validation Score: {round(CV_score.mean() * 100, 2).astype(str)} % ")
-
-                    # Get Training and Testing Accuracy
-                    train_accuracy = best_estimator.score(x_train, y_train)
-                    test_accuracy = accuracy_score(y_test, best_estimator.predict(x_test))
-
-                    logging.info(f"{clf_name} : Training Accuracy: {train_accuracy * 100:.2f}%, Testing Accuracy: {test_accuracy * 100:.2f}%")
-
-                    # Save the best model
-                    if test_accuracy > best_test_accuracy:
-                        best_test_accuracy = test_accuracy
-                        best_model_name = clf_name
-                        best_model = best_estimator
-                        
-
-                    # Print additional information
-                    print(f"  Best Parameters from RandomizedSearchCV for {clf_name}: {grid_search.best_params_}")
-                    logging.info(f"All steps of Training and Validation completed for {clf_name}. Now moving to next Classifier")
-
-            logging.info("Model Training stage is completed")
-
-            if best_model_name:
-                joblib.dump(best_model, f"artifacts/best_model.joblib")
-                joblib.dump(best_model, f"artifacts/best_model.pkl")
-                print(f"\nBest Model: {best_model_name}, Testing Accuracy: {best_test_accuracy * 100:.2f}%")
-                print(f"Best Model saved in 'artifacts' folder as 'best_model.joblib' and 'best_model.pkl'")
-            else:
-                print("No best model found.")
-
-            return best_model_name, best_test_accuracy
 
         except Exception as e:
             logging.error('Exception occurred at Model Training stage')

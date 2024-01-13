@@ -1,6 +1,3 @@
-
-
-
 import os
 import sys
 import numpy as np
@@ -13,11 +10,10 @@ from src.Fraud_TX.logger import logging
 
 from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
+from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import RobustScaler
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler,OneHotEncoder
 from src.Fraud_TX.utils.utils import save_object
-from pathlib import Path
-
 import warnings
 
 # Ignore the specific warning
@@ -33,98 +29,125 @@ class DataTransformationConfig:
 class DataTransformation:
     def __init__(self):
         self.data_transformation_config = DataTransformationConfig()
-        self.train_df_num_cols = ['V1', 'V2', 'V3', 'V4', 'V5', 'V6', 'V7', 'V8', 'V9', 'V10',
-                'V11', 'V12', 'V13', 'V14', 'V15', 'V16', 'V17', 'V18', 'V19', 'V20',
-                'V21', 'V22', 'V23', 'V24', 'V25', 'V26', 'V27', 'V28']
+        
 
     def get_data_transformation(self):
         try:
+            """ This function is responsible to perform data transformation """
+
             logging.info("get_data_transformation stage started")
 
+            numerical_columns = ['V1', 'V2', 'V3', 'V4', 'V5', 'V6', 'V7', 'V8', 'V9', 'V10',
+                'V11', 'V12', 'V13', 'V14', 'V15', 'V16', 'V17', 'V18', 'V19', 'V20',
+                'V21', 'V22', 'V23', 'V24', 'V25', 'V26', 'V27', 'V28','Time']
+            
+            categorical_columns = []
+            
+            logging.info("num_pipeline initiate")
+            num_pipeline = Pipeline(steps=[
+                ('imputer', SimpleImputer(strategy='median')),      # Useful to handel missing values
+                ('scalar',StandardScaler()),
+                ('rob_scaler',RobustScaler())
+            ])
+            
+            logging.info("cat_pipeline initiate")
+            cat_pipeline = Pipeline(steps=[
+                ('imputer', SimpleImputer(strategy='most_frequent')),      # Useful to handel missing values
+                ('one_hot_encoder',OneHotEncoder()),
+                ('scalar',StandardScaler(with_mean=False))
+            ])
 
-            logging.info("Pipeline initiated")
+            logging.info(f" Numerical Columns : {numerical_columns}")
+            logging.info(f" Categorical Columns : {categorical_columns}")
 
-            num_pipeline=Pipeline(
-                steps=[
-                    ('rob_scaler',RobustScaler()),
-                    ('std_scaler',StandardScaler())
-
+            preprocessor = ColumnTransformer(
+                [
+                    ('num_pipeline', num_pipeline,numerical_columns),
+                    ('cat_pipeline', cat_pipeline, categorical_columns)
                 ]
-
             )
 
-            preprocessor=ColumnTransformer(
-                [('num_pipeline',num_pipeline,self.train_df_num_cols)]
-            )
-            
             return preprocessor
-            
         
         except Exception as e:
-            logging.error(f"Exception occurred in the initialize_data_transformation stage: {e}")
-            raise customexception(e, sys)
-            
-        
+            logging.error("Exception occured at get_data_transformation stage")
+            raise customexception(e,sys)
+    
 
-    def initialize_data_transformation(self,train_path,test_path):
+    def initiate_data_transformation(self, train_path, test_path):
         try:
-
-            logging.info(" initiate_data_transformation stage initiated ")
-
             train_df = pd.read_csv(train_path)
-            test_df=pd.read_csv(test_path)
+            test_df = pd.read_csv(test_path)
 
             logging.info(f'Train Dataframe Head : \n{train_df.head(2).to_string()}')
             logging.info(f'Test Dataframe Head : \n{test_df.head(2).to_string()}')
 
-            
-
-            # Print or log column names for debugging
-            logging.info("Column names in the dataframe: %s", train_df.columns)
-            logging.info("Columns specified in numerical_cols: %s", self.train_df_num_cols)
-            
+            logging.info("Train and test data read as DataFrame")
 
             preprocessing_obj = self.get_data_transformation()
 
             target_column_name = 'Class'
-            drop_columns = ['Time', 'Amount']
 
-            input_feature_train_df = train_df.drop(columns=drop_columns, axis=1)
+            numerical_columns = ['V1', 'V2', 'V3', 'V4', 'V5', 'V6', 'V7', 'V8', 'V9', 'V10',
+                'V11', 'V12', 'V13', 'V14', 'V15', 'V16', 'V17', 'V18', 'V19', 'V20',
+                'V21', 'V22', 'V23', 'V24', 'V25', 'V26', 'V27', 'V28','Time']
+            
+            
+            logging.info(f" Dividing train data into dependent and independent features")
+
+            '''input_feature_train_df = train_df.drop(columns=[target_column_name],axis=1)
+            target_feature_train_df = train_df[target_column_name]'''
+
+            input_feature_train_df = train_df.drop(columns=[target_column_name], axis=1)
             target_feature_train_df = train_df[target_column_name]
 
-        
-
-            input_feature_test_df=test_df.drop(columns=drop_columns,axis=1)
-            target_feature_test_df=test_df[target_column_name]
-
-            logging.info("Applying preprocessing object on training and testing datasets.")
-
-            input_feature_train_arr = preprocessing_obj.fit_transform(input_feature_train_df)
-            input_feature_test_arr = preprocessing_obj.fit_transform(input_feature_test_df)
-            
-            
-            logging.info("Taking array of dataframe for better learning (fast processing)")
-            train_arr = np.c_[input_feature_train_arr, np.array(target_feature_train_df)]
-            test_arr = np.c_[input_feature_test_arr, np.array(target_feature_test_df)]
 
 
+            logging.info(f" Dividing test data into dependent and independent features")
 
+            '''input_feature_test_df = test_df.drop(columns=[target_column_name],axis=1)
+            target_feature_test_df = test_df[target_column_name]'''
+
+            input_feature_test_df = test_df.drop(columns=[target_column_name], axis=1)
+            target_feature_test_df = test_df[target_column_name]
+
+
+            '''# printing following for debuging purpose
+            print(f"Shape of input_feature_train_df: {input_feature_train_df.shape}")
+            print(f"Shape of input_feature_test_df: {input_feature_test_df.shape}")
+
+            print(f"Columns of input_feature_train_df: {input_feature_train_df.columns}")
+            print(f"Columns of input_feature_test_df: {input_feature_test_df.columns}")'''
+
+
+            logging.info("Applying preproccessing on train and test data")
+
+            input_feature_train_arr = preprocessing_obj.fit_transform(input_feature_train_df) # we can store this data as after applying preproccessing obj we get it in array format
+            input_feature_test_arr = preprocessing_obj.transform(input_feature_test_df)    # use transform instead of fit_transform due to the concept of data leakage
+
+            train_arr = np.c_[input_feature_train_arr,np.array(target_feature_train_df)]
+            test_arr = np.c_[input_feature_test_arr,np.array(target_feature_test_df)]
+
+            logging.info(f" Saved Preproccessing object")
 
             save_object(
                 file_path=self.data_transformation_config.preprocessor_obj_file_path,
                 obj=preprocessing_obj
             )
 
-            logging.info("preprocessing pickle file saved")
-
             return (
                 train_arr,
-                test_arr
-            ) 
+                test_arr,
+                self.data_transformation_config.preprocessor_obj_file_path
+            )
 
+
+
+            
         except Exception as e:
-            logging.error(f"Exception occurred in the initialize_data_transformation stage")
+            logging.error("Exception occured at initiate_data_transformation stage")
             raise customexception(e,sys)
+            
 
 
 

@@ -1,127 +1,99 @@
-
+import sys
 import os
 import joblib
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import RandomizedSearchCV
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.svm import SVC
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.linear_model import LogisticRegression
 from src.Fraud_TX.logger import logging
 from src.Fraud_TX.exception import customexception
-
-
-
+from sklearn.model_selection import cross_val_score
 
 class ModelTrainer:
     def __init__(self):
         pass
 
-    def initiate_model_training(self, train_array,test_array):
+    def initiate_model_training(self, train_array, test_array):
         try:
             logging.info('Model Training stage started')
 
             logging.info('Splitting data into x_train, x_test, y_train, y_test for Model Training ')
 
             x_train, y_train, x_test, y_test = (
-                train_array[:,:-1],
-                train_array[:,-1],
-                test_array[:,:-1],
-                test_array[:,-1]
+                train_array[:, :-1],
+                train_array[:, -1],
+                test_array[:, :-1],
+                test_array[:, -1]
             )
             logging.info('Splitting data into x_train, x_test, y_train, y_test for Model Training is completed')
 
-    
-
             classifiers = {
-                "RandomForestClassifier": RandomForestClassifier(),
-                "KNeighborsClassifier": KNeighborsClassifier(),
-                "SVC": SVC(),
+                "LogisticRegression": LogisticRegression(solver='liblinear'),
                 "DecisionTreeClassifier": DecisionTreeClassifier(),
-                "LogisticRegression": LogisticRegression(solver='liblinear')
             }
 
-            results = {}  # Dictionary to store results
+            param_dist = {
+                'LogisticRegression': {'penalty': ['l1', 'l2'], 'C': [0.001, 0.01, 0.1, 1, 10, 100, 1000]},
+                'DecisionTreeClassifier': {"criterion": ["gini", "entropy"], "max_depth": list(range(2, 4, 1)),
+                                            "min_samples_leaf": list(range(5, 7, 1))},
+            }
 
-            logging.info("Hyper-paramter tunning stage is started")
+            best_model_name = None
+            best_model = None
+            best_test_accuracy = 0  # Initialize to a lower value
+
+            logging.info("Hyper-parameter tuning stage is started \n")
 
             for clf_name, clf in classifiers.items():
-                param_dist = self.get_param_dist(clf_name)
 
                 # Use RandomizedSearchCV for hyperparameter tuning
-                random_search = RandomizedSearchCV(clf, param_distributions=param_dist, n_iter=5, cv=5, scoring='accuracy', random_state=42,n_jobs=4)
-                random_search.fit(x_train, y_train)
+                param_dist_for_clf = param_dist.get(clf_name, {})  # Get parameters for the classifier, or an empty dictionary if not found
 
-                best_estimator = random_search.best_estimator_
+                if param_dist_for_clf:
 
-                # Get Training and Testing Accuracy
-                train_accuracy = best_estimator.score(x_train, y_train)
-                test_accuracy = accuracy_score(y_test, best_estimator.predict(x_test))
+                    grid_search = RandomizedSearchCV(clf, param_dist_for_clf, n_iter=10, cv=5, scoring='accuracy', n_jobs=-1)
+                    logging.info(f"\n -- Defining hyperparameter search space for {clf_name} is completed")
 
-                logging.info(f"{clf_name} - Training Accuracy: {train_accuracy * 100:.2f}%, Testing Accuracy: {test_accuracy * 100:.2f}%")
+                    grid_search.fit(x_train, y_train)
 
-                '''# Save the model
-                model_filename = f"{artifacts}/{clf_name}_Best_Model.pkl"
-                joblib.dump(best_estimator, model_filename)'''
+                    best_estimator = grid_search.best_estimator_
 
-                # Save the best model from RandomizedSearchCV
-                joblib.dump(best_estimator, f"artifacts/{clf_name}_Best_Model_RandomizedSearchCV.pkl")
+                    CV_score = cross_val_score(best_estimator, x_train, y_train, cv=5)
+                    logging.info(f"Cross Validation for {clf_name} is completed")
+                    print(f"{clf_name} Cross Validation Score: {round(CV_score.mean() * 100, 2).astype(str)} % ")
 
-                # Print additional information
-                print(f"  Best Parameters from RandomizedSearchCV for {clf_name}: {random_search.best_params_}")
-                print(f"  Best Cross-Validated Accuracy from RandomizedSearchCV for {clf_name}: {random_search.best_score_:.4f}")
-                print()
+                    # Get Training and Testing Accuracy
+                    train_accuracy = best_estimator.score(x_train, y_train)
+                    test_accuracy = accuracy_score(y_test, best_estimator.predict(x_test))
 
-                results[clf_name] = {
-                    'training_accuracy': train_accuracy,
-                    'testing_accuracy': test_accuracy,
-                    #'model_filename': model_filename
-                }
+                    logging.info(f"{clf_name} : Training Accuracy: {train_accuracy * 100:.2f}%, Testing Accuracy: {test_accuracy * 100:.2f}%")
+
+                    # Save the best model
+                    if test_accuracy > best_test_accuracy:
+                        best_test_accuracy = test_accuracy
+                        best_model_name = clf_name
+                        best_model = best_estimator
+                        
+
+                    # Print additional information
+                    print(f"  Best Parameters from RandomizedSearchCV for {clf_name}: {grid_search.best_params_}")
+                    logging.info(f"All steps of Training and Validation completed for {clf_name}. Now moving to next Classifier")
 
             logging.info("Model Training stage is completed")
 
-            return results
+            if best_model_name:
+                joblib.dump(best_model, f"artifacts/best_model.joblib")
+                joblib.dump(best_model, f"artifacts/best_model.pkl")
+                print(f"\nBest Model: {best_model_name}, Testing Accuracy: {best_test_accuracy * 100:.2f}%")
+                print(f"Best Model saved in 'artifacts' folder as 'best_model.joblib' and 'best_model.pkl'")
+            else:
+                print("No best model found.")
+
+            return best_model_name, best_test_accuracy
 
         except Exception as e:
             logging.error('Exception occurred at Model Training stage')
             raise customexception(e, sys)
 
-    def get_param_dist(self, clf_name):
-        print("Entering get_param_dist")
-        logging.info(" Defining hyperparameter search space based on classifier")
-        if clf_name == "RandomForestClassifier":
-            print("Entering get_param_dist for RandomForestClassifier")
-            return {
-                'n_estimators': [50, 100, 200],
-                'max_depth': [None, 10, 20, 30],
-                'min_samples_split': [2, 5, 10],
-                'min_samples_leaf': [1, 2, 4]
-            }
-        elif clf_name == "KNeighborsClassifier":
-            print("Entering get_param_dist for KNeighborsClassifier")
-            return {
-                'n_neighbors': list(range(2, 5, 1)),
-                'algorithm': ['auto', 'ball_tree', 'kd_tree', 'brute']
-            }
-
-        elif clf_name == "SVC":
-            print("Entering get_param_dist for SVC")
-            return {
-                'C': [0.5, 0.7, 0.9, 1],
-                'kernel': ['rbf', 'linear']
-            }
-        elif clf_name == "DecisionTreeClassifier":
-            print("Entering get_param_dist for DecisionTreeClassifier")
-            return {
-                "criterion": ["gini", "entropy"],
-                "max_depth": list(range(2, 4, 1)),
-                "min_samples_leaf": list(range(5, 7, 1))
-            }
-        elif clf_name == "LogisticRegression":
-            print("Entering get_param_dist for LogisticRegression")
-            return {
-                'penalty': ['l1', 'l2'],
-                'C': [0.001, 0.01, 0.1, 1, 10, 100, 1000]
-            }
-        logging.info(" Defining hyperparameter search space is completed")
+print("'model_trainer.py' file run successfully")

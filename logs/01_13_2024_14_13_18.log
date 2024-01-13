@@ -1,0 +1,41 @@
+[2024-01-13 14:13:19,109] 27 root - INFO - data ingestion started
+[2024-01-13 14:13:20,125] 31 root - INFO - I have read dataset as dataframe
+[2024-01-13 14:13:26,942] 36 root - INFO -  i have saved the raw dataset in artifact folder
+[2024-01-13 14:13:27,009] 41 root - INFO - Train-Test split completed
+[2024-01-13 14:13:33,460] 46 root - INFO - Raw data has been splitted into train and test data
+[2024-01-13 14:13:33,460] 47 root - INFO - Now data ingestion part is completed
+[2024-01-13 14:13:33,460] 72 root - INFO -  initiate_data_transformation stage initiated 
+[2024-01-13 14:13:34,637] 77 root - INFO - Train Dataframe Head : 
+       Time        V1        V2        V3        V4        V5        V6        V7        V8        V9       V10       V11       V12       V13       V14       V15       V16       V17       V18       V19       V20       V21       V22       V23       V24       V25       V26       V27       V28  Amount  Class
+0  137268.0  0.174872  0.122630  0.526299 -1.137630  0.146283 -0.104785 -0.043025 -0.119052 -0.651944 -0.159350 -0.763721 -1.857117 -0.616694 -2.186486  0.769011  1.210403  1.566496 -0.025423  1.289398  0.302345  0.264696  0.949723 -0.206914  0.306043 -0.589608 -0.016929  0.060530  0.003419   13.99      0
+1  121001.0 -0.154310  0.907149 -0.625860  0.548366  1.546098  0.343143  1.069557  0.141004 -0.474524  0.242841 -0.848282 -1.162064 -2.644843  1.107799 -0.663526 -0.500207 -0.383929  0.921142  1.548457  0.026264  0.068724  0.287314 -0.332749 -0.404511  0.097385 -0.356966  0.403018  0.226927   20.86      0
+[2024-01-13 14:13:34,644] 78 root - INFO - Test Dataframe Head : 
+       Time        V1        V2        V3        V4        V5        V6        V7        V8        V9       V10       V11       V12       V13       V14       V15       V16       V17       V18       V19       V20       V21       V22       V23       V24       V25       V26       V27       V28  Amount  Class
+0  134229.0  2.104086  0.035465 -2.532847  0.338393  0.804445 -1.237375  0.801375 -0.390782 -0.126168  0.483322  0.297411 -0.231826 -1.987999  1.375972 -0.701480 -0.472634 -0.341169  0.063686  0.378735 -0.340082  0.282462  0.885468 -0.222233 -0.410869  0.628686  0.738434 -0.137595 -0.110295   10.00      0
+1  157061.0 -0.225324  0.668875 -1.296576 -1.772444  2.906540  3.369387  0.317922  0.935602  0.027646 -0.077630 -0.176384  0.043243 -0.372296  0.284463  0.058972 -0.174290 -0.491613 -0.857595 -0.236156  0.156084 -0.295202 -0.740521  0.126930  0.684897 -0.406572  0.166660  0.370417  0.156761    6.28      0
+[2024-01-13 14:13:34,644] 83 root - INFO - Column names in the dataframe: Index(['Time', 'V1', 'V2', 'V3', 'V4', 'V5', 'V6', 'V7', 'V8', 'V9', 'V10',
+       'V11', 'V12', 'V13', 'V14', 'V15', 'V16', 'V17', 'V18', 'V19', 'V20',
+       'V21', 'V22', 'V23', 'V24', 'V25', 'V26', 'V27', 'V28', 'Amount',
+       'Class'],
+      dtype='object')
+[2024-01-13 14:13:34,644] 84 root - INFO - Columns specified in numerical_cols: ['V1', 'V2', 'V3', 'V4', 'V5', 'V6', 'V7', 'V8', 'V9', 'V10', 'V11', 'V12', 'V13', 'V14', 'V15', 'V16', 'V17', 'V18', 'V19', 'V20', 'V21', 'V22', 'V23', 'V24', 'V25', 'V26', 'V27', 'V28']
+[2024-01-13 14:13:34,644] 42 root - INFO - get_data_transformation stage started
+[2024-01-13 14:13:34,644] 45 root - INFO - Pipeline initiated
+[2024-01-13 14:13:34,659] 100 root - INFO - Applying preprocessing object on training and testing datasets.
+[2024-01-13 14:13:35,042] 106 root - INFO - Taking array of dataframe for better learning (fast processing)
+[2024-01-13 14:13:35,059] 118 root - INFO - preprocessing pickle file saved
+[2024-01-13 14:13:35,075] 19 root - INFO - Model Training stage started
+[2024-01-13 14:13:35,075] 21 root - INFO - Splitting data into x_train, x_test, y_train, y_test for Model Training 
+[2024-01-13 14:13:35,075] 29 root - INFO - Splitting data into x_train, x_test, y_train, y_test for Model Training is completed
+[2024-01-13 14:13:35,076] 46 root - INFO - Hyper-parameter tuning stage is started
+[2024-01-13 14:13:35,076] 56 root - INFO - 
+ Defining hyperparameter search space for LogisticRegression is completed
+[2024-01-13 14:14:20,024] 63 root - INFO - Cross Validation for LogisticRegression is completed
+[2024-01-13 14:14:20,075] 70 root - INFO - LogisticRegression : Training Accuracy: 99.92%, Testing Accuracy: 99.91%
+[2024-01-13 14:14:20,079] 82 root - INFO - All steps of Training and Validation completed for LogisticRegression. Now moving to next Classifier
+[2024-01-13 14:14:20,080] 56 root - INFO - 
+ Defining hyperparameter search space for DecisionTreeClassifier is completed
+[2024-01-13 14:15:17,589] 63 root - INFO - Cross Validation for DecisionTreeClassifier is completed
+[2024-01-13 14:15:17,642] 70 root - INFO - DecisionTreeClassifier : Training Accuracy: 99.94%, Testing Accuracy: 99.94%
+[2024-01-13 14:15:17,652] 82 root - INFO - All steps of Training and Validation completed for DecisionTreeClassifier. Now moving to next Classifier
+[2024-01-13 14:15:17,652] 84 root - INFO - Model Training stage is completed

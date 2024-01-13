@@ -1,0 +1,37 @@
+[2024-01-14 02:20:04,216] 25 root - INFO - Data Ingestion started
+[2024-01-14 02:20:05,322] 29 root - INFO - I have read dataset as dataframe
+[2024-01-14 02:20:11,991] 34 root - INFO -  I have saved the raw dataset in artifact folder
+[2024-01-14 02:20:12,049] 39 root - INFO - Raw data has been splitted into train and test data and Train-Test split is completed
+[2024-01-14 02:20:18,480] 45 root - INFO - Now data ingestion part is completed
+[2024-01-14 02:20:19,566] 82 root - INFO - Train Dataframe Head : 
+       Time        V1        V2        V3        V4        V5        V6        V7        V8        V9       V10       V11       V12       V13       V14       V15       V16       V17       V18       V19       V20       V21       V22       V23       V24       V25       V26       V27       V28  Amount  Class
+0   88046.0  0.118400  0.962814 -0.570852 -0.756309  1.189164 -0.254450  0.891274  0.052179 -0.307332 -0.674947  0.647110  0.524290  0.186738 -0.883093 -0.927382  0.648388 -0.055142  0.402447  0.223451  0.071903 -0.312351 -0.788815  0.042727  0.094936 -0.383264  0.121130  0.216724  0.070765    9.32      0
+1  126971.0  2.282013 -0.299435 -2.368358 -0.887634  0.369476 -1.620522  0.539653 -0.709684 -1.319453  0.884580 -0.108687  0.214818  1.336217  0.154234 -0.641641 -0.150509  0.631275 -2.120257  0.546448  0.024632  0.516004  1.630453 -0.157212  1.230207  0.773256  0.242414 -0.086207 -0.080352    8.00      0
+[2024-01-14 02:20:19,566] 83 root - INFO - Test Dataframe Head : 
+       Time        V1        V2        V3        V4        V5        V6        V7        V8        V9       V10       V11       V12       V13        V14       V15       V16       V17       V18       V19       V20       V21       V22       V23       V24       V25       V26       V27       V28  Amount  Class
+0   69358.0 -4.704788 -0.143968  1.574880  0.314988 -0.880536  0.924926 -2.122593 -3.571707  2.449911  0.629053 -0.704407  1.531678  0.727153  -1.679331 -1.347562 -0.716917  1.040387 -1.118141  0.473992 -2.499141  3.058962 -0.431935  1.820261  0.511941  0.403270  1.236141  0.931373 -0.453597    9.65      0
+1  160870.0 -0.644278  5.002352 -8.252739  7.756915 -0.216267 -2.751496 -3.358857  1.406268 -4.403852 -5.945634  4.475905 -7.607261 -0.160723 -13.010749  1.094382 -2.864039 -2.871342 -0.180614  0.647709  0.816558  0.587728 -0.605759  0.033746 -0.756170 -0.008172  0.532772  0.663970  0.192067    0.77      1
+[2024-01-14 02:20:19,566] 85 root - INFO - Train and test data read as DataFrame
+[2024-01-14 02:20:19,566] 38 root - INFO - get_data_transformation stage started
+[2024-01-14 02:20:19,566] 46 root - INFO - num_pipeline initiate
+[2024-01-14 02:20:19,566] 53 root - INFO - cat_pipeline initiate
+[2024-01-14 02:20:19,566] 60 root - INFO -  Numerical Columns : ['V1', 'V2', 'V3', 'V4', 'V5', 'V6', 'V7', 'V8', 'V9', 'V10', 'V11', 'V12', 'V13', 'V14', 'V15', 'V16', 'V17', 'V18', 'V19', 'V20', 'V21', 'V22', 'V23', 'V24', 'V25', 'V26', 'V27', 'V28', 'Time']
+[2024-01-14 02:20:19,566] 61 root - INFO -  Categorical Columns : []
+[2024-01-14 02:20:19,566] 96 root - INFO -  Dividing train data into dependent and independent features
+[2024-01-14 02:20:19,582] 106 root - INFO -  Dividing test data into dependent and independent features
+[2024-01-14 02:20:19,582] 123 root - INFO - Applying preproccessing on train and test data
+[2024-01-14 02:20:20,883] 131 root - INFO -  Saved Preproccessing object
+[2024-01-14 02:20:20,883] 30 root - INFO - Model Training stage started
+[2024-01-14 02:20:20,883] 32 root - INFO - Splitting data into x_train, x_test, y_train, y_test for Model Training 
+[2024-01-14 02:20:20,883] 40 root - INFO - Splitting data into x_train, x_test, y_train, y_test for Model Training is completed
+[2024-01-14 02:20:20,883] 53 root - INFO - Hyper-parameter tunning started
+[2024-01-14 02:22:58,229] 61 root - INFO - Cross Validation for LogisticRegression(C=1, penalty='l1', solver='liblinear') is started
+[2024-01-14 02:23:19,767] 63 root - INFO - Cross Validation for LogisticRegression(C=1, penalty='l1', solver='liblinear') is completed
+[2024-01-14 02:23:19,768] 66 root - INFO - Training part for LogisticRegression(C=1, penalty='l1', solver='liblinear') is completed
+[2024-01-14 02:23:19,856] 53 root - INFO - Hyper-parameter tunning started
+[2024-01-14 02:24:02,312] 61 root - INFO - Cross Validation for DecisionTreeClassifier(criterion='entropy', max_depth=3, min_samples_leaf=5) is started
+[2024-01-14 02:24:22,535] 63 root - INFO - Cross Validation for DecisionTreeClassifier(criterion='entropy', max_depth=3, min_samples_leaf=5) is completed
+[2024-01-14 02:24:22,535] 66 root - INFO - Training part for DecisionTreeClassifier(criterion='entropy', max_depth=3, min_samples_leaf=5) is completed
+[2024-01-14 02:24:22,551] 73 root - INFO - Best Model Found 
+ - Model Name : DecisionTreeClassifier ,
+ - Accuracy Score : 0.999403110845827

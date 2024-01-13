@@ -1,0 +1,7 @@
+[2024-01-14 02:24:50,742] 96 werkzeug - WARNING -  * Debugger is active!
+[2024-01-14 02:24:50,757] 96 werkzeug - INFO -  * Debugger PIN: 126-336-051
+[2024-01-14 02:25:20,797] 105 root - INFO - Dataframe Gathered
+[2024-01-14 02:25:20,977] 96 werkzeug - INFO - 127.0.0.1 - - [14/Jan/2024 02:25:20] "POST /predict HTTP/1.1" 200 -
+[2024-01-14 02:25:25,922] 105 root - INFO - Dataframe Gathered
+[2024-01-14 02:25:25,928] 96 werkzeug - INFO - 127.0.0.1 - - [14/Jan/2024 02:25:25] "POST /predict HTTP/1.1" 200 -
+[2024-01-14 02:25:50,027] 96 werkzeug - INFO -  * Detected change in 'C:\\iNeurOn_Projects\\1_iNeuron_Internship\\E2E_CreditCard_Fraud_Transaction_Detection\\app.py', reloading

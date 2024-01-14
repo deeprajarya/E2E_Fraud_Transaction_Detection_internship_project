@@ -80,7 +80,6 @@ Includes utility functions such as saving and loading objects, and model evaluat
 - NumPy
 - Pandas
 - Scikit-learn
-- ...
 
 ## Contributing
 
@@ -90,8 +89,7 @@ If you'd like to contribute to the project, please follow the guidelines in [CON
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Acknowledgements
+## Contributing
 
-- Mention any libraries, tools, or resources you used or were inspired by.
-- ...
+Contributions are welcome! Reach me out at https://www.linkedin.com/in/deepraj-arya-3060631b7/
 

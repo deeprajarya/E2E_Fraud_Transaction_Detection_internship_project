@@ -81,15 +81,13 @@ Includes utility functions such as saving and loading objects, and model evaluat
 - Pandas
 - Scikit-learn
 
-## Contributing
-
-If you'd like to contribute to the project, please follow the guidelines in [CONTRIBUTING.md](CONTRIBUTING.md).
-
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Contributing
 
+If you'd like to contribute to the project, please follow the guidelines in [CONTRIBUTING.md](CONTRIBUTING.md).
 Contributions are welcome! Reach me out at https://www.linkedin.com/in/deepraj-arya-3060631b7/
+
 

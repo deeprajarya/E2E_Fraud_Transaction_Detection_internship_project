@@ -87,7 +87,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Contributing
 
-If you'd like to contribute to the project, please follow the guidelines in [CONTRIBUTING.md](CONTRIBUTING.md).
+If you'd like to contribute to the project, please follow the guidelines.
 Contributions are welcome! Reach me out at https://www.linkedin.com/in/deepraj-arya-3060631b7/
 
 
